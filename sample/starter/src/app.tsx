@@ -14,12 +14,12 @@
  * limitations under the License.
 */
 
-import React from 'react';
+//import React from 'react';
 import {createRoot} from "react-dom/client";
 import {APIProvider} from '@vis.gl/react-google-maps';
 
 const App = () => (
- <APIProvider apiKey={'Your API key here'} onLoad={() => console.log('Maps API has loaded.')}>
+ <APIProvider apiKey={'AIzaSyACR54EJurDEozVMCEc3Wut8SuseSCWl_g'} onLoad={() => console.log('Maps API has loaded.')}>
    <h1>Hello, world!</h1>
  </APIProvider>
 );
