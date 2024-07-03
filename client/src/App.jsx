@@ -29,6 +29,7 @@ function App() {
       </div>
       <p className="read-the-docs">
         Click on the Vite!!!
+        Hello world!
       </p>
     </>
   )
