@@ -1,6 +1,7 @@
 # React + Vite
 
 **RUN this command in root directory to run**
+
 npm run dev
 
 Currently, two official plugins are available:
