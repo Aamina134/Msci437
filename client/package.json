@@ -4,6 +4,10 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/icons-material": "^5.15.21",
+    "@mui/material": "^5.15.21",
     "acorn": "^8.12.0",
     "acorn-jsx": "^5.3.2",
     "ajv": "^6.12.6",
@@ -173,6 +177,7 @@
     "react-dom": "^18.3.1",
     "react-is": "^16.13.1",
     "react-refresh": "^0.14.2",
+    "react-router-dom": "^6.24.1",
     "reflect.getprototypeof": "^1.0.6",
     "regexp.prototype.flags": "^1.5.2",
     "resolve": "^2.0.0-next.5",

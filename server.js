@@ -20,7 +20,7 @@ const io = new Server(httpServer, {
 
 // Object
 const userMessages = {};
-
+/*
 io.on("connection", (socket) => {
     console.log(`User Connected: ${socket.id}`);
 
@@ -35,7 +35,7 @@ io.on("connection", (socket) => {
     });
 
 });
-
+*/
 
 
 //Initialize our web-app on the selected port
