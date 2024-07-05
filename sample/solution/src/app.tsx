@@ -133,9 +133,9 @@ const PoiMarkers = (props: { pois: Poi[] }) => {
 };
 
 export default App;
-
+/*
 const root = createRoot(document.getElementById('app'));
 root.render(
       <App />
-  );
+  );*/
 

@@ -4,16 +4,10 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import App from "../../sample/solution/src/app"
 //import history from '../Navigation/history';
-import AppBar from '@mui/material/AppBar';
-import Container from '@mui/material/Container';
-import Toolbar from '@mui/material/Toolbar';
-import Paper from '@mui/material/Paper';
 import MenuBar from './menu.jsx';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
 
 
 const opacityValue = 0.9;
@@ -42,7 +36,7 @@ const MainGridContainer = styled(Grid)(({ theme }) => ({
     margin: theme.spacing(4),
 }))
 
-const App = () => {
+const Apps = () => {
 
 
 
@@ -59,10 +53,12 @@ const App = () => {
 
                 }}
             >
-
+                <div style={{height: '80vh', width: '100%'}}>
+                    <App/>
+                </div>
             </Box>
         </ThemeProvider>
     );
 }
 
-export default App;
+export default Apps;
