@@ -5,6 +5,7 @@ import history from './Navigation/history';
 import AppBar from '@mui/material/AppBar';
 import Container from '@mui/material/Container';
 import Toolbar from '@mui/material/Toolbar';
+import { useNavigate } from 'react-router-dom';
 
 const lightTheme = createTheme({
     palette: {
@@ -26,6 +27,7 @@ const lightTheme = createTheme({
     },
 });
 const App = () => {
+    const navigate = useNavigate();
 
     return (
         <ThemeProvider theme={lightTheme}>
@@ -34,21 +36,21 @@ const App = () => {
                         <Toolbar disableGutters>
                             <Button
                                 key='1'
-                                onClick={() => history.push('/Home')}
+                                onClick={() => navigate('/')}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
                             >
                                 Home
                             </Button>
                             <Button
                                 key='2'
-                                onClick={() => history.push('/Planning')}
+                                onClick={() => navigate('/Planning')}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
                             >
                                 Route planning
                             </Button>
                             <Button
                                 key='3'
-                                onClick={() => history.push('/Analysis')}
+                                onClick={() => navigate('/Analysis')}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
                             >
                                 Route analysis
