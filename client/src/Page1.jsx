@@ -98,10 +98,10 @@ const App = () => {
                             lineHeight: '1.2',
                         }}
                     >
-                        Frequently Asked Questions
+                        Safe Route DSS
                     </Typography>
                     <Typography variant="h6" component="div">
-                        Browse our precurated answers to your questions.
+                        random code on this page
                     </Typography>
                     <br />
                     {faqData.map((faq, index) => (
