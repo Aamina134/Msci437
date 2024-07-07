@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
-import history from './Navigation/history';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Container from '@mui/material/Container';
 import Toolbar from '@mui/material/Toolbar';
@@ -26,39 +25,41 @@ const lightTheme = createTheme({
         },
     },
 });
+
 const App = () => {
     const navigate = useNavigate();
 
     return (
         <ThemeProvider theme={lightTheme}>
-            <AppBar position="static">
-                    <Container maxWidth="xl">
-                        <Toolbar disableGutters>
-                            <Button
-                                key='1'
-                                onClick={() => navigate('/')}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
-                            >
-                                Home
-                            </Button>
-                            <Button
-                                key='2'
-                                onClick={() => navigate('/Planning')}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
-                            >
-                                Route planning
-                            </Button>
-                            <Button
-                                key='3'
-                                onClick={() => navigate('/Analysis')}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
-                            >
-                                Route analysis
-                            </Button>
-                        </Toolbar>
-                    </Container>
-                </AppBar>
-            </ThemeProvider>
-    )};
+            <AppBar position="static" sx={{ background: 'linear-gradient(90deg, #5C7AEA, #AB83F8)' }}>
+                <Container maxWidth="xl">
+                    <Toolbar disableGutters>
+                        <Button
+                            key='1'
+                            onClick={() => navigate('/')}
+                            sx={{ my: 2, color: 'white', display: 'block' }}
+                        >
+                            Home
+                        </Button>
+                        <Button
+                            key='2'
+                            onClick={() => navigate('/Planning')}
+                            sx={{ my: 2, color: 'white', display: 'block' }}
+                        >
+                            Route planning
+                        </Button>
+                        <Button
+                            key='3'
+                            onClick={() => navigate('/Analysis')}
+                            sx={{ my: 2, color: 'white', display: 'block' }}
+                        >
+                            Route analysis
+                        </Button>
+                    </Toolbar>
+                </Container>
+            </AppBar>
+        </ThemeProvider>
+    );
+};
 
-    export default App;
+export default App;
