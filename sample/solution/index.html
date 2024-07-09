@@ -16,6 +16,11 @@ limitations under the License.
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- Importing React : Threw errors about react not being loaded without these-->
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+
+    <!-- Sample stuff -->
     <meta charset="utf-8" />
     <meta
       name="viewport"
@@ -24,6 +29,7 @@ limitations under the License.
     <meta
       name="description"
       content="Google Maps with React Codelab" />
+    <!-- Styles : maybe move into a CSS sheet later -->
     <style>
       body {
         margin: 0;
@@ -31,12 +37,34 @@ limitations under the License.
       }
       #app {
         width: 100vw;
-        height: 100vh;
+        height: 85%;
+      }
+      #map { 
+      width: 100%; 
+      height: 100vh;
+      }
+      .square {
+        height: 15%;
+        width: 100%;
+        background-color: #555;
       }
     </style>
   </head>
   <body>
-    <div id="app"></div>
+    <!-- HTML Display-->
+     <!--Map reserves screen space : it is the container we will work within -->
+    <div id="map">
+      <!-- Square reserves space for the menu bar -->
+      <div class="square">
+        <!-- The div the menu is drawn into from the module -->
+        <div id="menu"></div>
+      </div>
+      <!-- The div the map is drawn into from the module -->
+      <div id="app"></div>
+    </div>
+    
+    <!-- Importing JSX modules-->
+    <script type="module" src="./main.jsx"></script>
     <script type="module" src="./src/app.tsx"></script>
   </body>
 </html>
