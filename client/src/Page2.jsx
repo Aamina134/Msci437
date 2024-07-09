@@ -38,22 +38,19 @@ const MainGridContainer = styled(Grid)(({ theme }) => ({
 
 const Apps = () => {
 
-
-
     return (
-        <ThemeProvider theme={lightTheme}>
+        <ThemeProvider theme={lightTheme} style={{height: '100vh', width: '100vh'}}>
             <MenuBar />
             <Box
                 sx={{
-                    height: '100vh',
+                    height: '88vh',
                     opacity: opacityValue,
-                    overflow: 'scroll',
+                    //overflow: 'scroll',
                     backgroundImage: `url(https://source.unsplash.com/_0sEjWfAK3Q)`,
                     backgroundSize: "cover"
-
                 }}
             >
-                <div style={{height: '80vh', width: '100%'}}>
+                <div style={{height: '100%', width: '100%'}}>
                     <App/>
                 </div>
             </Box>
