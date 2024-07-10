@@ -2,6 +2,8 @@ FROM node:18-alpine
 
 WORKDIR /app
 
+RUN pip install numpy pandas
+
 COPY package.json .
 COPY package-lock.json .
 

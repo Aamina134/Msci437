@@ -3,6 +3,10 @@ import express from 'express';
 import cors from 'cors';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
+const { spawnSync } = require('child_process');
+const { readFile } = require('fs/promises');
+const { appendFile } = require('fs/promises');
+const { join } = require('path');
 
 // Express app
 const app = express();
@@ -38,6 +42,26 @@ io.on("connection", (socket) => {
 */
 
 
+app.get("/", async (req, res, next)=>{
+    bigBooleanTable = []
+    timeOfDay = 'Day'
+    ModeOfTransportation = 'Car'
+
+    let dataToSend;
+    const python = spawn('python', ['script.py', bigBooleanTable, timeOfDay, ModeOfTransportation]);
+
+    python.stdout.on('data', function (data) {
+        console.log('Pipe data from python script ...');
+        dataToSend = data.toString();
+    });
+
+    python.on('close', (code) => {
+        console.log(`child process close all stdio with code ${code}`);
+        // send data to browser
+        res.send(dataToSend)
+    });
+
+});
 //Initialize our web-app on the selected port
 httpServer.listen(port);
 
