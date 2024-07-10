@@ -6,14 +6,14 @@ import os
 import re
 import json
 
-print(os.getcwd())
-
 # routeAreas = sys.argv[1]
 # timeOfDay = sys.argv[2]
 # transportation = sys.argv[3]
 
-timeOfDay = "Evening"
-transportation = 'Feet'
+
+# Edit timeOfDay, transportation, and routeAreas, to play around with parameters
+timeOfDay = "Evening" # 'Morning', 'Afternoon', 'Evening', 'Night'
+transportation = 'Feet' # 'Bikes', 'Feet', or 'Transit'
 
 routeAreas=[]
 routeAreas.append([True, True, True, True, True, True, True, True, True, True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False])
