@@ -13,17 +13,20 @@ const lightTheme = createTheme({
             default: "#ffffff"
         },
         primary: {
-            main: '#EEE2DC',
-            light: '#f5eae6',
+            main: '#38AED3',
+            light: '#003686',
             dark: '#000000',
             background: '#ffffff'
         },
         secondary: {
-            main: "#EDC7B7",
+            main: "#38AED3",
             light: '#000000',
-            dark: '#EDC7B7'
-        },
+            dark: '#38AED3'
+        }
     },
+    typography: {
+        fontFamily: 'Roboto, sans-serif', 
+    }
 });
 
 const App = () => {
@@ -31,7 +34,7 @@ const App = () => {
 
     return (
         <ThemeProvider theme={lightTheme}>
-            <AppBar position="static" sx={{ background: 'linear-gradient(90deg, #5C7AEA, #AB83F8)' }}>
+            <AppBar position="static" sx={{ background: 'linear-gradient(to right, #38AED3, #003686)' }}>
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
                         <Button
