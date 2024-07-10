@@ -13,7 +13,6 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useState } from 'react'; // Import useState hook for managing state
 import { useNavigate } from 'react-router-dom';
 import SendIcon from '@mui/icons-material/Send';
 
@@ -37,32 +36,90 @@ const lightTheme = createTheme({
 
 const MainGridContainer = styled(Grid)(({ theme }) => ({
     margin: theme.spacing(4),
+    textAlign: 'left', // Left-align contents within the Grid container
 }));
+
+const StyledButton = styled(Button)({
+    height: '10vh',
+    color: '#fff',
+    fontSize: '16px',
+    backgroundColor: '#003686', // Updated button color
+    borderRadius: '8px', // Make the button circular
+    paddingLeft: '16px', // Add space for icon
+    paddingRight: '16px', // Add space for icon
+    position: 'absolute',
+    bottom: '4%',
+    right: '1%', // Adjusted position to the right side
+    zIndex: 1,
+    fontWeight: 'bold', // Make the text bold
+    '&:hover': {
+        backgroundColor: '#38AED3', // Darker shade on hover
+    },
+    '& .MuiButton-endIcon': {
+        display: 'none', // Hide the end icon (SendIcon)
+    },
+});
+
+
+const FullWidthImage = styled('img')({
+    width: '100%', // Make image occupy full width of its container
+    height: 'auto', // Automatically adjust height while maintaining aspect ratio
+    maxHeight: '40vh', // Set maximum height to prevent excessive stretching
+    borderRadius: '16px',
+    boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
+    objectFit: 'cover', // Maintain aspect ratio and cover entire space
+});
+
+
+// Custom styled components for Accordion
+const StyledAccordion = styled(Accordion)({
+    width: '100%',
+    boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+    borderRadius: '8px',
+    marginBottom: '16px',
+    '&:before': {
+        display: 'none',
+    },
+});
+
+const StyledAccordionSummary = styled(AccordionSummary)({
+    backgroundColor: '#f0f0f0', // Light background color
+    borderBottom: '1px solid #ddd',
+    minHeight: '56px', // Adjust height as needed
+    '&.Mui-expanded': {
+        minHeight: '56px', // Adjust height when expanded
+    },
+});
+
+const StyledAccordionDetails = styled(AccordionDetails)({
+    backgroundColor: '#fff',
+    color: '#555',
+    padding: '16px',
+});
 
 const App = () => {
 
-    const backgroundImageUrl = 'https://images.unsplash.com/photo-1597200381847-30ec200eeb9a?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D
+    const backgroundImageUrl = 'https://images.unsplash.com/photo-1597200381847-30ec200eeb9a?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
     const navigate = useNavigate();
 
     const faqData = [
         {
-            question: 'Q: What does Safe Route do?',
-            answer: 'A: Safe Route calculates the safety level of your route given the time & transportation method.'
+            question: 'What does Safe Route do?',
+            answer: 'Safe Route calculates the safety level of your route given the time & transportation method.',
         },
         {
-            question: 'Q: How does Safe Route keep me safe?',
-            answer: 'A: Our safety score can help you decide whether or not to embark on a given route. This is not a replacement for good judgement. '
+            question: 'How does Safe Route keep me safe?',
+            answer: 'Our safety score can help you decide whether or not to embark on a given route. This is not a replacement for good judgement.',
         },
         {
-            question: 'Q: What if something does happen along my route?',
-            answer: 'A: Safe Route cannot aid you in emergency situations. Please call 911 in the case of an emergency! Safe Route takes no legal responsibility for any harm or damage caused to users along the route.'
+            question: 'What if something does happen along my route?',
+            answer: 'Safe Route cannot aid you in emergency situations. Please call 911 in the case of an emergency! Safe Route takes no legal responsibility for any harm or damage caused to users along the route.',
         },
         {
-            question: 'Q: I need help, how can I contact Safe Route?',
-            answer: 'A: Please contact us at 416-555-NEEDHELP or at SafeRouteMail@NotReal.com.'
-        }
+            question: 'I need help, how can I contact Safe Route?',
+            answer: 'Please contact us at 416-555-NEEDHELP or at SafeRouteMail@NotReal.com.',
+        },
     ];
-
 
     return (
         <ThemeProvider theme={lightTheme}>
@@ -71,93 +128,62 @@ const App = () => {
                 sx={{
                     height: '100vh',
                     background: 'white', // Use custom background color
-                    overflow: 'auto',
                     display: 'flex',
                     flexDirection: 'row',
                     alignItems: 'center',
                     justifyContent: 'center',
+                    position: 'relative', // Ensure positioning context for absolute button
                 }}
             >
                 <MainGridContainer
-                    container
                     spacing={2}
-                    style={{ maxWidth: '800px' }}
+                    style={{ maxWidth: '960px', position: 'relative' }}
                     direction="column"
-                    alignItems="left"
+                    alignItems="center"
                 >
                     <Typography
                         variant="h3"
-                        component="h1"
+                        component="h2"
                         align="left"
                         gutterBottom
                         style={{
-                            color: '#003686', // Text color on custom background
+                            color: '#003686',
                             fontWeight: 'bold',
-                            letterSpacing: '0.01em',
+                            letterSpacing: '0.005em',
+                            marginTop: '4rem', // Increase padding above the title
                         }}
                     >
-                        Safe Route DSS
+                        Welcome to Safe Route!
                     </Typography>
                     
-                    <img
-                        src="https://plus.unsplash.com/premium_photo-1677343210548-62729756633e?q=80&w=1888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" // Replace with your image URL
-                        alt="Map Image"
-                        style={{
-                            width: '20%',
-                            height: '10%',
-                            borderRadius: '8%', // Makes the image circular
-                            boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)', // Optional shadow for depth
-                        }}
-                    />
-                    <p></p>
-                    
-                    {faqData.map((faq, index) => (
-                        <Accordion key={index} sx={{ width: '100%', boxShadow: 'none', borderBottom: '1px solid #ddd' }}>
-                            <AccordionSummary
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls={`faq-${index}-content`}
-                                id={`faq-${index}-header`}
-                            >
-                                <Typography variant="h6" style={{ color: '#003686' }}>
-                                    {faq.question}
-                                </Typography>
-                            </AccordionSummary>
-                            <AccordionDetails sx={{ backgroundColor: 'white', color: '#555', padding: '16px' }}>
-                                <Typography>
-                                    {faq.answer}
-                                </Typography>
-                            </AccordionDetails>
-                        </Accordion>
-                    ))}
-
-                    <Typography marginBottom="50px" align="center" variant="h6" component="div">
-                        The smartest way to plan your journey.
-                    </Typography>
-                    <div align="center">
-                        <Button variant="outlined" onClick={() => navigate('/Planning')} borderColor="#005cbf" endIcon={<SendIcon />} style={{height: '10vh', width: '25vh', color: 'blue', fontSize: '20px'}}>Start Planning</Button>
+                    <div style={{ position: 'relative', width: '100%', marginTop: '2rem' }}>
+                        <FullWidthImage
+                            src="https://images.unsplash.com/photo-1494783367193-149034c05e8f?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            alt="Map Image"
+                        />
+                        <StyledButton onClick={() => navigate('/Planning')} endIcon={<SendIcon />}>
+                            Start Planning Your Route!
+                        </StyledButton>
                     </div>
-                    <Typography marginTop="50px" align="center" variant="h6" component="div">
-                        Some commonly asked questions:
-                    </Typography>
-                    <br />
-                    <div align="center">
+
+                    <div style={{ width: '100%', marginTop: '2rem' }}>
                         {faqData.map((faq, index) => (
-                            <Accordion key={index} style={{ maxWidth: '800px' }}>
-                                <AccordionSummary
+                            <StyledAccordion key={index}>
+                                <StyledAccordionSummary
                                     expandIcon={<ExpandMoreIcon />}
                                     aria-controls={`faq-${index}-content`}
                                     id={`faq-${index}-header`}
                                 >
-                                    <Typography variant="h6" component="div">
+                                    <Typography variant="h6" style={{ color: '#003686' }}>
                                         {faq.question}
                                     </Typography>
-                                </AccordionSummary>
-                                <AccordionDetails  sx={{  backgroundColor: '#2196f3', color: '#fff'  }}>
+                                </StyledAccordionSummary>
+                                <StyledAccordionDetails>
                                     <Typography>
                                         {faq.answer}
                                     </Typography>
-                                </AccordionDetails>
-                            </Accordion>
+                                </StyledAccordionDetails>
+                            </StyledAccordion>
                         ))}
                     </div>
                     
