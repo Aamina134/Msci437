@@ -14,7 +14,8 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from 'react'; // Import useState hook for managing state
-
+import { useNavigate } from 'react-router-dom';
+import SendIcon from '@mui/icons-material/Send';
 
 const lightTheme = createTheme({
     palette: {
@@ -40,24 +41,26 @@ const MainGridContainer = styled(Grid)(({ theme }) => ({
 
 const App = () => {
 
-    const backgroundImageUrl = 'https://images.unsplash.com/photo-1597200381847-30ec200eeb9a?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+    const backgroundImageUrl = 'https://images.unsplash.com/photo-1597200381847-30ec200eeb9a?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D
+    const navigate = useNavigate();
+
     const faqData = [
         {
-            question: 'Q: What criteria do reviewers have to meet in order to be selected?',
-            answer: 'A: Reviewers must upload valid credentials for Admin review.',
+            question: 'Q: What does Safe Route do?',
+            answer: 'A: Safe Route calculates the safety level of your route given the time & transportation method.'
         },
         {
-            question: 'Q: As a Student, am I allowed to schedule a meeting with my Reviewer?',
-            answer: 'A: Yes, meetings can be scheduled through comments with your reviewer, and vice versa.',
+            question: 'Q: How does Safe Route keep me safe?',
+            answer: 'A: Our safety score can help you decide whether or not to embark on a given route. This is not a replacement for good judgement. '
         },
         {
-            question: 'Q: Can a Reviewer be a reviewee as well?',
-            answer: 'A: Yes, Reviewers can also have their documents reviewed by other Reveiwers!',
+            question: 'Q: What if something does happen along my route?',
+            answer: 'A: Safe Route cannot aid you in emergency situations. Please call 911 in the case of an emergency! Safe Route takes no legal responsibility for any harm or damage caused to users along the route.'
         },
         {
-            question: 'Q: Is Can Do Co-op user-friendly?',
-            answer: 'A: Yes, Can Do Co-op is designed to be user-friendly and easy to navigate for students seeking to improve their job search skills.',
-        },
+            question: 'Q: I need help, how can I contact Safe Route?',
+            answer: 'A: Please contact us at 416-555-NEEDHELP or at SafeRouteMail@NotReal.com.'
+        }
     ];
 
 
@@ -126,6 +129,39 @@ const App = () => {
                             </AccordionDetails>
                         </Accordion>
                     ))}
+
+                    <Typography marginBottom="50px" align="center" variant="h6" component="div">
+                        The smartest way to plan your journey.
+                    </Typography>
+                    <div align="center">
+                        <Button variant="outlined" onClick={() => navigate('/Planning')} borderColor="#005cbf" endIcon={<SendIcon />} style={{height: '10vh', width: '25vh', color: 'blue', fontSize: '20px'}}>Start Planning</Button>
+                    </div>
+                    <Typography marginTop="50px" align="center" variant="h6" component="div">
+                        Some commonly asked questions:
+                    </Typography>
+                    <br />
+                    <div align="center">
+                        {faqData.map((faq, index) => (
+                            <Accordion key={index} style={{ maxWidth: '800px' }}>
+                                <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls={`faq-${index}-content`}
+                                    id={`faq-${index}-header`}
+                                >
+                                    <Typography variant="h6" component="div">
+                                        {faq.question}
+                                    </Typography>
+                                </AccordionSummary>
+                                <AccordionDetails  sx={{  backgroundColor: '#2196f3', color: '#fff'  }}>
+                                    <Typography>
+                                        {faq.answer}
+                                    </Typography>
+                                </AccordionDetails>
+                            </Accordion>
+                        ))}
+                    </div>
+                    
+                    <br />
                 </MainGridContainer>
             </Box>
         </ThemeProvider>
