@@ -1,68 +1,81 @@
-import * as React from 'react';
+import React from 'react';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-//import history from '../Navigation/history';
-import AppBar from '@mui/material/AppBar';
-import Container from '@mui/material/Container';
-import Toolbar from '@mui/material/Toolbar';
-import Paper from '@mui/material/Paper';
-import MenuBar from './menu.jsx';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import MenuBar from "./menu";
+import Box from "@mui/material/Box";
+import App from "../../sample/solution/src/app";
+import {createTheme, ThemeProvider} from "@mui/material/styles";
 
+function SafetyScoresPopup() {
+    const [isOpen, setIsOpen] = React.useState(false);
 
-const opacityValue = 0.9;
+    const handleOpen = () => {
+        setIsOpen(true);
+    };
 
-const lightTheme = createTheme({
-    palette: {
-        type: 'light',
-        background: {
-            default: "#ffffff"
+    const handleClose = () => {
+        setIsOpen(false);
+    };
+
+    const lightTheme = createTheme({
+        palette: {
+            type: 'light',
+            background: {
+                default: "#ffffff"
+            },
+            primary: {
+                main: '#EEE2DC',
+                light: '#f5eae6',
+                dark: '#ffffff',
+                background: '#ffffff'
+            },
+            secondary: {
+                main: "#EDC7B7",
+                light: '#ffffff',
+                dark: '#ffffff'
+            },
         },
-        primary: {
-            main: '#EEE2DC',
-            light: '#f5eae6',
-            dark: '#ffffff',
-            background: '#ffffff'
-        },
-        secondary: {
-            main: "#EDC7B7",
-            light: '#ffffff',
-            dark: '#ffffff'
-        },
-    },
-});
-
-const MainGridContainer = styled(Grid)(({ theme }) => ({
-    margin: theme.spacing(4),
-}))
-
-const App = () => {
-
-
+    });
 
     return (
-        <ThemeProvider theme={lightTheme}>
-            <MenuBar />
-            <Box
-                sx={{
-                    height: '100vh',
-                    opacity: opacityValue,
-                    overflow: 'scroll',
-                    backgroundImage: `url(https://source.unsplash.com/_0sEjWfAK3Q)`,
-                    backgroundSize: "cover"
-
-                }}
-            >
-            nuffin here yet...
-            </Box>
-        </ThemeProvider>
+        <div>
+            <ThemeProvider theme={lightTheme} style={{height: '100vh', width: '100vh'}}>
+                <MenuBar />
+                <Box
+                    sx={{
+                        height: '88vh',
+                        opacity: 0.9,
+                        //overflow: 'scroll',
+                        backgroundImage: `url(https://source.unsplash.com/_0sEjWfAK3Q)`,
+                        backgroundSize: "cover"
+                    }}
+                >
+                    <div style={{height: '100%', width: '100%'}}>
+                        <App/>
+                    </div>
+                </Box>
+            </ThemeProvider>
+            <Button variant="contained" color="primary" onClick={handleOpen}>
+                Show Safety Scores
+            </Button>
+            {isOpen && (
+                <div className="popup">
+                    <h2>Safety Scores</h2>
+                    <p>(0 = completely unsafe, 100 = perfectly safe)</p>
+                    <p>Biking.............61</p>
+                    <p>Walking.............70</p>
+                    <p>Public Transit.....78</p>
+                    <p>Dangers occurred recently in this route's red zones:</p>
+                    <ul>
+                        <li>Stabbings</li>
+                        <li>Bike theft</li>
+                    </ul>
+                    <Button variant="contained" color="primary" onClick={handleClose}>
+                        Done
+                    </Button>
+                </div>
+            )}
+        </div>
     );
 }
 
-export default App;
+export default SafetyScoresPopup;

@@ -17,6 +17,7 @@
 //import React from 'react';
 import {createRoot} from "react-dom/client";
 import {APIProvider} from '@vis.gl/react-google-maps';
+import React from "react";
 
 const App = () => (
  <APIProvider apiKey={'AIzaSyACR54EJurDEozVMCEc3Wut8SuseSCWl_g'} onLoad={() => console.log('Maps API has loaded.')}>
