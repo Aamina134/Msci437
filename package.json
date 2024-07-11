@@ -18,6 +18,8 @@
     "@mui/icons-material": "^5.15.21",
     "@mui/material": "^5.15.21",
     "@mui/styled-engine-sc": "^6.0.0-alpha.18",
+    "@nivo/pie": "^0.87.0",
+    "@react-google-maps/api": "^2.19.3",
     "@vis.gl/react-google-maps": "^1.1.0",
     "concurrently": "^8.2.2",
     "cors": "^2.8.5",
