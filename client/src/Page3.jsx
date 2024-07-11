@@ -1,12 +1,74 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
-import MenuBar from "./menu";
-import Box from "@mui/material/Box";
-import App from "../../sample/solution/src/app";
-import {createTheme, ThemeProvider} from "@mui/material/styles";
+import MenuBar from './menu'; // Adjust path as per your project structure
+import Box from '@mui/material/Box';
+import { GoogleMap, DirectionsService, DirectionsRenderer, LoadScript } from '@react-google-maps/api'; // Import necessary components from @react-google-maps/api
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const lightTheme = createTheme({
+    palette: {
+        type: 'light',
+        background: {
+            default: '#ffffff',
+        },
+        primary: {
+            main: '#EEE2DC',
+            light: '#f5eae6',
+            dark: '#ffffff',
+            background: '#ffffff',
+        },
+        secondary: {
+            main: '#EDC7B7',
+            light: '#ffffff',
+            dark: '#ffffff',
+        },
+    },
+});
+
+const MapComponent = () => {
+    const [directions, setDirections] = useState(null);
+
+    // Fetch directions logic
+    const fetchDirections = () => {
+        const directionsService = new window.google.maps.DirectionsService();
+
+        const origin = { lat: 40.756795, lng: -73.954298 };
+        const destination = { lat: 41.756795, lng: -76.954298 };
+
+        directionsService.route(
+            {
+                origin: origin,
+                destination: destination,
+                travelMode: window.google.maps.TravelMode.DRIVING,
+            },
+            (result, status) => {
+                if (status === window.google.maps.DirectionsStatus.OK) {
+                    setDirections(result);
+                } else {
+                    console.error(`error fetching directions ${result}`);
+                }
+            }
+        );
+    };
+
+    // Call fetchDirections when component mounts
+    React.useEffect(() => {
+        fetchDirections();
+    }, []);
+
+    return (
+        <GoogleMap
+            mapContainerStyle={{ height: '100%', width: '100%' }}
+            center={{ lat: 40.756795, lng: -73.954298 }}
+            zoom={13}
+        >
+            {directions && <DirectionsRenderer directions={directions} />}
+        </GoogleMap>
+    );
+};
 
 function SafetyScoresPopup() {
-    const [isOpen, setIsOpen] = React.useState(false);
+    const [isOpen, setIsOpen] = useState(false);
 
     const handleOpen = () => {
         setIsOpen(true);
@@ -16,44 +78,26 @@ function SafetyScoresPopup() {
         setIsOpen(false);
     };
 
-    const lightTheme = createTheme({
-        palette: {
-            type: 'light',
-            background: {
-                default: "#ffffff"
-            },
-            primary: {
-                main: '#EEE2DC',
-                light: '#f5eae6',
-                dark: '#ffffff',
-                background: '#ffffff'
-            },
-            secondary: {
-                main: "#EDC7B7",
-                light: '#ffffff',
-                dark: '#ffffff'
-            },
-        },
-    });
-
     return (
-        <div>
-            <ThemeProvider theme={lightTheme} style={{height: '100vh', width: '100vh'}}>
-                <MenuBar />
-                <Box
-                    sx={{
-                        height: '88vh',
-                        opacity: 0.9,
-                        //overflow: 'scroll',
-                        backgroundImage: `url(https://source.unsplash.com/_0sEjWfAK3Q)`,
-                        backgroundSize: "cover"
-                    }}
+        <ThemeProvider theme={lightTheme}>
+            <MenuBar />
+            <Box
+                sx={{
+                    height: '88vh',
+                    opacity: 0.9,
+                    backgroundImage: `url(https://source.unsplash.com/_0sEjWfAK3Q)`,
+                    backgroundSize: 'cover',
+                }}
+            >
+                <LoadScript
+                    googleMapsApiKey="AIzaSyACR54EJurDEozVMCEc3Wut8SuseSCWl_g" // Replace with your Google Maps API key
+                    libraries={['places']}
                 >
-                    <div style={{height: '100%', width: '100%'}}>
-                        <App/>
+                    <div style={{ height: '100%', width: '100%' }}>
+                        <MapComponent />
                     </div>
-                </Box>
-            </ThemeProvider>
+                </LoadScript>
+            </Box>
             <Button variant="contained" color="primary" onClick={handleOpen}>
                 Show Safety Scores
             </Button>
@@ -74,7 +118,7 @@ function SafetyScoresPopup() {
                     </Button>
                 </div>
             )}
-        </div>
+        </ThemeProvider>
     );
 }
 
