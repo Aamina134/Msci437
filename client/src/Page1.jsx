@@ -40,13 +40,13 @@ const MainGridContainer = styled(Grid)(({ theme }) => ({
 }));
 
 const StyledButton = styled(Button)({
-    height: '10vh',
+    height: '4vh',
     color: '#fff',
-    fontSize: '16px',
+    fontSize: '8px',
     backgroundColor: '#003686', // Updated button color
     borderRadius: '8px', // Make the button circular
-    paddingLeft: '16px', // Add space for icon
-    paddingRight: '16px', // Add space for icon
+    paddingLeft: '8px', // Add space for icon
+    paddingRight: '8px', // Add space for icon
     position: 'absolute',
     bottom: '4%',
     right: '1%', // Adjusted position to the right side

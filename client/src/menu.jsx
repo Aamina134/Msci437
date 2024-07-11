@@ -1,11 +1,11 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Container from '@mui/material/Container';
 import Toolbar from '@mui/material/Toolbar';
 import { useNavigate } from 'react-router-dom';
-import Typography from '@mui/material/Typography'; // Import Typography component
+import Typography from '@mui/material/Typography';
 import { Box } from '@mui/material';
 
 const Logo = () => (
@@ -20,14 +20,13 @@ const Logo = () => (
             backgroundColor: 'white',
             color: '#0B7285',
             fontWeight: 'bold',
-            fontFamily: 'Roboto, sans-serif', 
+            fontFamily: 'Roboto, sans-serif',
             fontSize: 16,
         }}
     >
         SR
     </Box>
 );
-
 
 const lightTheme = createTheme({
     palette: {
@@ -48,7 +47,7 @@ const lightTheme = createTheme({
         }
     },
     typography: {
-        fontFamily: 'Roboto, sans-serif', 
+        fontFamily: 'Roboto, sans-serif',
     }
 });
 
@@ -57,28 +56,28 @@ const App = () => {
 
     return (
         <ThemeProvider theme={lightTheme}>
-            <AppBar position="static" sx={{ background: '#38AED3' }}>
+            <AppBar position="static" sx={{ backgroundColor: 'white' }}>
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
                         <Logo />
                         <Button
                             key='2'
                             onClick={() => navigate('/')}
-                            sx={{ my: 2, color: 'white', display: 'block', marginLeft: 1 }}
+                            sx={{ my: 2, color: '#38AED3', display: 'block', marginLeft: 1 }}
                         >
                             <Typography variant="button" fontWeight="bold">Home</Typography>
                         </Button>
                         <Button
                             key='3'
                             onClick={() => navigate('/Planning')}
-                            sx={{ my: 2, color: 'white', display: 'block' }}
+                            sx={{ my: 2, color: '#38AED3', display: 'block' }}
                         >
                             <Typography variant="button" fontWeight="bold">Route Planning</Typography>
                         </Button>
                         <Button
                             key='4'
                             onClick={() => navigate('/Analysis')}
-                            sx={{ my: 2, color: 'white', display: 'block' }}
+                            sx={{ my: 2, color: '#38AED3', display: 'block' }}
                         >
                             <Typography variant="button" fontWeight="bold">Route Analysis</Typography>
                         </Button>
