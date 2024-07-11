@@ -106,8 +106,44 @@ function SafetyScoresPopup() {
                     googleMapsApiKey="AIzaSyACR54EJurDEozVMCEc3Wut8SuseSCWl_g" // Replace with your Google Maps API key
                     libraries={['places']}
                 >
-                    <div style={{ height: '100%', width: '100%' }}>
-                        <MapComponent />
+                    <div style={{ height: '100%', width: '100%', position: 'relative'}}>
+                        <MapComponent /> 
+                            <div style={{
+                                position: 'absolute',
+                                top: '15%',
+                                left: '7%',
+                                //transform: 'translate(-50%, -50%)',
+                                boxShadow: '0 2px 6px rgba(0, 0, 0, 0.3)'
+                            }}>
+                                <Button 
+                                    variant="contained" 
+                                    color="primary" 
+                                    
+                                    onClick={handleOpen}
+                                >
+                                    Show Safety Scores
+                                </Button>
+                                {isOpen && (
+                                    <div className="popup" style={{
+                                        backgroundColor: 'white'
+                                    }}>
+                                        <h2>Safety Scores</h2>
+                                        <p>(0 = completely unsafe, 100 = perfectly safe)</p>
+                                        <p>Biking.............61</p>
+                                        <p>Walking.............70</p>
+                                        <p>Public Transit.....78</p>
+                                        <p>Dangers occurred recently in this route's red zones:</p>
+                                        <ul>
+                                            <li>Stabbings</li>
+                                            <li>Bike theft</li>
+                                        </ul>
+                                        <Button variant="contained" color="primary" onClick={handleClose}>
+                                            Done
+                                        </Button>
+                                    </div>
+                                )}
+                            </div>
+                        
                     </div>
 
                     <Autocomplete
@@ -115,7 +151,7 @@ function SafetyScoresPopup() {
                     >
                         <input
                             type="text" //This auto complete section is for the area search bar.
-                            placeholder="Enter a place"
+                            placeholder="Enter origin"
                             ref={inputRef}
                             style={{
                             boxSizing: `border-box`,
@@ -128,34 +164,42 @@ function SafetyScoresPopup() {
                             fontSize: `14px`,
                             outline: `none`,
                             textOverflow: `ellipses`,
-                            position: "absolute",
-                            left: "50%",
+                            position: "fixed",
+                            left: "40%",
+                            top: "14%",
+                            marginLeft: "-120px"
+                            }}
+                        />
+                    </Autocomplete>
+                    <Autocomplete
+                    onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
+                    >
+                        <input
+                            type="text" //This auto complete section is for the area search bar.
+                            placeholder="Enter Destination"
+                            ref={inputRef}
+                            style={{
+                            boxSizing: `border-box`,
+                            border: `1px solid transparent`,
+                            width: `240px`,
+                            height: `32px`,
+                            padding: `0 12px`,
+                            borderRadius: `3px`,
+                            boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
+                            fontSize: `14px`,
+                            outline: `none`,
+                            textOverflow: `ellipses`,
+                            position: "fixed",
+                            left: "60%",
+                            top: "14%",
                             marginLeft: "-120px"
                             }}
                         />
                     </Autocomplete>
                 </LoadScript>
+                
             </Box>
-            <Button variant="contained" color="primary" onClick={handleOpen}>
-                Show Safety Scores
-            </Button>
-            {isOpen && (
-                <div className="popup">
-                    <h2>Safety Scores</h2>
-                    <p>(0 = completely unsafe, 100 = perfectly safe)</p>
-                    <p>Biking.............61</p>
-                    <p>Walking.............70</p>
-                    <p>Public Transit.....78</p>
-                    <p>Dangers occurred recently in this route's red zones:</p>
-                    <ul>
-                        <li>Stabbings</li>
-                        <li>Bike theft</li>
-                    </ul>
-                    <Button variant="contained" color="primary" onClick={handleClose}>
-                        Done
-                    </Button>
-                </div>
-            )}
+            
         </ThemeProvider>
     );
 }
