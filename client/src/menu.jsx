@@ -6,6 +6,28 @@ import Container from '@mui/material/Container';
 import Toolbar from '@mui/material/Toolbar';
 import { useNavigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography'; // Import Typography component
+import { Box } from '@mui/material';
+
+const Logo = () => (
+    <Box
+        sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: 40,
+            height: 40,
+            borderRadius: '50%',
+            backgroundColor: 'white',
+            color: '#0B7285',
+            fontWeight: 'bold',
+            fontFamily: 'Roboto, sans-serif', 
+            fontSize: 16,
+        }}
+    >
+        SR
+    </Box>
+);
+
 
 const lightTheme = createTheme({
     palette: {
@@ -38,22 +60,23 @@ const App = () => {
             <AppBar position="static" sx={{ background: '#38AED3' }}>
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
+                        <Logo />
                         <Button
-                            key='1'
+                            key='2'
                             onClick={() => navigate('/')}
-                            sx={{ my: 2, color: 'white', display: 'block' }}
+                            sx={{ my: 2, color: 'white', display: 'block', marginLeft: 1 }}
                         >
                             <Typography variant="button" fontWeight="bold">Home</Typography>
                         </Button>
                         <Button
-                            key='2'
+                            key='3'
                             onClick={() => navigate('/Planning')}
                             sx={{ my: 2, color: 'white', display: 'block' }}
                         >
                             <Typography variant="button" fontWeight="bold">Route Planning</Typography>
                         </Button>
                         <Button
-                            key='3'
+                            key='4'
                             onClick={() => navigate('/Analysis')}
                             sx={{ my: 2, color: 'white', display: 'block' }}
                         >
