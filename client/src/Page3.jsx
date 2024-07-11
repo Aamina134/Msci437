@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import MenuBar from './menu'; // Adjust path as per your project structure
 import Box from '@mui/material/Box';
-import { GoogleMap, DirectionsService, DirectionsRenderer, LoadScript } from '@react-google-maps/api'; // Import necessary components from @react-google-maps/api
+import { GoogleMap, DirectionsService, DirectionsRenderer, LoadScript, Autocomplete } from '@react-google-maps/api'; // Import necessary components from @react-google-maps/api
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const lightTheme = createTheme({
@@ -32,8 +32,8 @@ const MapComponent = () => {
     const fetchDirections = () => {
         const directionsService = new window.google.maps.DirectionsService();
 
-        const origin = { lat: 40.756795, lng: -73.954298 };
-        const destination = { lat: 41.756795, lng: -76.954298 };
+        const origin = { lat: 43.66611867064715, lng: -79.36844301380488 }; //Cabbage town
+        const destination = { lat: 43.71211226493189, lng: -79.39393597358205 }; //Thornhills (probably)
 
         directionsService.route(
             {
@@ -59,8 +59,8 @@ const MapComponent = () => {
     return (
         <GoogleMap
             mapContainerStyle={{ height: '100%', width: '100%' }}
-            center={{ lat: 40.756795, lng: -73.954298 }}
-            zoom={13}
+            center={{ lat: 43.71211226493189, lng: -79.39393597358205 }}
+            zoom={11}
         >
             {directions && <DirectionsRenderer directions={directions} />}
         </GoogleMap>
@@ -77,6 +77,19 @@ function SafetyScoresPopup() {
     const handleClose = () => {
         setIsOpen(false);
     };
+
+    //The following section is for the search bar
+    const autocompleteRef = useRef();
+    const inputRef = useRef();
+
+    useEffect(() => {
+        if (autocompleteRef.current) {
+            autocompleteRef.current.addListener('place_changed', () => {
+              const place = autocompleteRef.current.getPlace();
+              console.log('Place details:', place);
+            });
+          }
+    })
 
     return (
         <ThemeProvider theme={lightTheme}>
@@ -96,6 +109,31 @@ function SafetyScoresPopup() {
                     <div style={{ height: '100%', width: '100%' }}>
                         <MapComponent />
                     </div>
+
+                    <Autocomplete
+                    onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
+                    >
+                        <input
+                            type="text" //This auto complete section is for the area search bar.
+                            placeholder="Enter a place"
+                            ref={inputRef}
+                            style={{
+                            boxSizing: `border-box`,
+                            border: `1px solid transparent`,
+                            width: `240px`,
+                            height: `32px`,
+                            padding: `0 12px`,
+                            borderRadius: `3px`,
+                            boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
+                            fontSize: `14px`,
+                            outline: `none`,
+                            textOverflow: `ellipses`,
+                            position: "absolute",
+                            left: "50%",
+                            marginLeft: "-120px"
+                            }}
+                        />
+                    </Autocomplete>
                 </LoadScript>
             </Box>
             <Button variant="contained" color="primary" onClick={handleOpen}>
