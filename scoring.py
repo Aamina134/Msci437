@@ -108,20 +108,18 @@ for row in routeAreas:
     c = 0
     for value in row:
         if value:
-            counts[0] = lat[r][c][0]
-            counts[1] = lat[r][c][1]
-            counts[2] = lat[r][c][2]
-            counts[3] = lat[r][c][3]
-            counts[4] = lat[r][c][4]
-            counts[5] = lat[r][c][5]
+            counts[0] += lat[r][c][0]
+            counts[1] += lat[r][c][1]
+            counts[2] += lat[r][c][2]
+            counts[3] += lat[r][c][3]
+            counts[4] += lat[r][c][4]
+            counts[5] += lat[r][c][5]
         c+=1
     r+=1
 # print(counts)
 
 score = 0
-c = 0
-for i in counts:
-    score+=i*priority[transportation][c]
-    c+=1
+for c in range(6):
+    score+=counts[c]*priority[transportation][c]
 
 print(score)
