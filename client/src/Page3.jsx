@@ -2,9 +2,9 @@ import React, { useRef, useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import MenuBar from './menu'; // Adjust path as per your project structure
 import Box from '@mui/material/Box';
-import { GoogleMap, DirectionsService, DirectionsRenderer, LoadScript, Autocomplete } from '@react-google-maps/api'; // Import necessary components from @react-google-maps/api
+import { GoogleMap, DirectionsService, DirectionsRenderer, LoadScriptNext, Autocomplete } from '@react-google-maps/api'; // Import necessary components from @react-google-maps/api
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import PieChart from './pie'
+import PieChart from './pie';
 
 const lightTheme = createTheme({
     palette: {
@@ -45,7 +45,7 @@ const data = [
         "value": 123,
         "color": "hsl(111, 70%, 50%)"
     }
-]
+];
 
 const MapComponent = () => {
     const [directions, setDirections] = useState(null);
@@ -54,8 +54,8 @@ const MapComponent = () => {
     const fetchDirections = () => {
         const directionsService = new window.google.maps.DirectionsService();
 
-        const origin = { lat: 43.66611867064715, lng: -79.36844301380488 }; //Cabbage town
-        const destination = { lat: 43.71211226493189, lng: -79.39393597358205 }; //Thornhills (probably)
+        const origin = { lat: 43.66611867064715, lng: -79.36844301380488 }; // Cabbage town
+        const destination = { lat: 43.71211226493189, lng: -79.39393597358205 }; // Thornhills (probably)
 
         directionsService.route(
             {
@@ -88,7 +88,7 @@ const MapComponent = () => {
     };
 
     // Call fetchDirections when component mounts
-    React.useEffect(() => {
+    useEffect(() => {
         fetchDirections();
     }, []);
 
@@ -104,12 +104,9 @@ const MapComponent = () => {
 };
 
 function SafetyScoresPopup() {
-
     const [scoreOne, setScoreOne] = useState(90);
     const [scoreTwo, setScoreTwo] = useState(75);
     const [scoreThree, setScoreThree] = useState(36);
-
-
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -121,18 +118,18 @@ function SafetyScoresPopup() {
         setIsOpen(false);
     };
 
-    //The following section is for the search bar
+    // The following section is for the search bar
     const autocompleteRef = useRef();
     const inputRef = useRef();
 
     useEffect(() => {
         if (autocompleteRef.current) {
             autocompleteRef.current.addListener('place_changed', () => {
-              const place = autocompleteRef.current.getPlace();
-              console.log('Place details:', place);
+                const place = autocompleteRef.current.getPlace();
+                console.log('Place details:', place);
             });
-          }
-    })
+        }
+    }, []);
 
     return (
         <ThemeProvider theme={lightTheme}>
@@ -145,7 +142,7 @@ function SafetyScoresPopup() {
                     backgroundSize: 'cover',
                 }}
             >
-                <LoadScript
+                <LoadScriptNext
                     googleMapsApiKey="AIzaSyACR54EJurDEozVMCEc3Wut8SuseSCWl_g" // Replace with your Google Maps API key
                     libraries={['places']}
                 >
@@ -154,30 +151,30 @@ function SafetyScoresPopup() {
                     </div>
 
                     <Autocomplete
-                    onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
+                        onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
                     >
                         <input
-                            type="text" //This auto complete section is for the area search bar.
+                            type="text" // This autocomplete section is for the area search bar.
                             placeholder="Enter a place"
                             ref={inputRef}
                             style={{
-                            boxSizing: `border-box`,
-                            border: `1px solid transparent`,
-                            width: `240px`,
-                            height: `32px`,
-                            padding: `0 12px`,
-                            borderRadius: `3px`,
-                            boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
-                            fontSize: `14px`,
-                            outline: `none`,
-                            textOverflow: `ellipses`,
-                            position: "absolute",
-                            left: "50%",
-                            marginLeft: "-120px"
+                                boxSizing: `border-box`,
+                                border: `1px solid transparent`,
+                                width: `240px`,
+                                height: `32px`,
+                                padding: `0 12px`,
+                                borderRadius: `3px`,
+                                boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
+                                fontSize: `14px`,
+                                outline: `none`,
+                                textOverflow: `ellipses`,
+                                position: "absolute",
+                                left: "50%",
+                                marginLeft: "-120px"
                             }}
                         />
                     </Autocomplete>
-                </LoadScript>
+                </LoadScriptNext>
             </Box>
             <Button variant="contained" color="primary" onClick={handleOpen}>
                 Show Safety Scores
@@ -187,10 +184,8 @@ function SafetyScoresPopup() {
                     <h2>Safety Scores</h2>
                     <p>(0 = completely unsafe, 100 = perfectly safe)</p>
                     <p>Biking.............61</p>
-                    <Box height ="20vh">
-                        <PieChart
-                            data={data}
-                        />
+                    <Box height="20vh">
+                        <PieChart data={data} />
                     </Box>
                     <p>Walking.............70</p>
                     <p>Public Transit.....78</p>
@@ -209,3 +204,4 @@ function SafetyScoresPopup() {
 }
 
 export default SafetyScoresPopup;
+
