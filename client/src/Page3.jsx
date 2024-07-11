@@ -122,6 +122,8 @@ function SafetyScoresPopup() {
     const autocompleteRef = useRef();
     const inputRef = useRef();
 
+    const [inputValue, setInputValue] = useState("");
+
     useEffect(() => {
         if (autocompleteRef.current) {
             autocompleteRef.current.addListener('place_changed', () => {
@@ -130,6 +132,11 @@ function SafetyScoresPopup() {
             });
         }
     }, []);
+
+    const handleInputChange = (e) => {
+        setInputValue(e.target.value);
+        console.log(e.target.value)
+    };
 
     return (
         <ThemeProvider theme={lightTheme}>
@@ -157,6 +164,8 @@ function SafetyScoresPopup() {
                             type="text" // This autocomplete section is for the area search bar.
                             placeholder="Enter a place"
                             ref={inputRef}
+                            value={inputValue}
+                            onChange={handleInputChange}
                             style={{
                                 boxSizing: `border-box`,
                                 border: `1px solid transparent`,
@@ -204,4 +213,3 @@ function SafetyScoresPopup() {
 }
 
 export default SafetyScoresPopup;
-
