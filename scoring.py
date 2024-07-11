@@ -85,32 +85,32 @@ with open(file, newline='') as csvfile:
 counts = [0,0,0,0,0,0]
 
 # (Below was used to obtain max danger scores for each mode of transportation)
-i = 0
-for row in lat:
-    for value in row:
-        if value[0] <= 2500:
-            sum = 0
-            c = 0
-            for items in value:
-                sum+=priority['Bikes'][c]*value[c]
-            if maxBike < sum:
-                maxBike = sum
-            sum = 0
-            c = 0
-            for items in value:
-                sum+=priority['Feet'][c]*value[c]
-            if maxFeet < sum:
-                maxFeet = sum
-            sum = 0
-            c = 0
-            for items in value:
-                sum+=priority['Transit'][c]*value[c]
-            if maxTransit < sum:
-                maxTransit = sum
+# i = 0
+# for row in lat:
+#     for value in row:
+#         if value[0] <= 2500:
+#             sum = 0
+#             c = 0
+#             for items in value:
+#                 sum+=priority['Bikes'][c]*value[c]
+#             if maxBike < sum:
+#                 maxBike = sum
+#             sum = 0
+#             c = 0
+#             for items in value:
+#                 sum+=priority['Feet'][c]*value[c]
+#             if maxFeet < sum:
+#                 maxFeet = sum
+#             sum = 0
+#             c = 0
+#             for items in value:
+#                 sum+=priority['Transit'][c]*value[c]
+#             if maxTransit < sum:
+#                 maxTransit = sum
 
-print(maxBike)
-print(maxFeet)
-print(maxTransit)
+# print(maxBike)
+# print(maxFeet)
+# print(maxTransit)
 
 sq = 0
 r = 0
@@ -118,7 +118,7 @@ for row in routeAreas:
     c = 0
     for value in row:
         if value:
-            counts[0] += lat[r][c][0]
+            counts[0] += min(lat[r][c][0], 2500)
             counts[1] += lat[r][c][1]
             counts[2] += lat[r][c][2]
             counts[3] += lat[r][c][3]
