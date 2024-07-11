@@ -4,17 +4,15 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import AppBar from '@mui/material/AppBar';
-import Container from '@mui/material/Container';
-import Toolbar from '@mui/material/Toolbar';
-import Paper from '@mui/material/Paper';
-import MenuBar from './menu.jsx';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useNavigate } from 'react-router-dom';
 import SendIcon from '@mui/icons-material/Send';
+import MenuBar from './menu.jsx';
+import LogoImage from './MSCI 436 Final.png'; // Adjust the path as per your project structure
+import BoyOnBike from './Boy on bike.png';
 
 const lightTheme = createTheme({
     palette: {
@@ -30,7 +28,7 @@ const lightTheme = createTheme({
         },
     },
     typography: {
-        fontFamily: 'Roboto, sans-serif',
+        fontFamily: 'Calibri, sans-serif',
     },
 });
 
@@ -40,34 +38,33 @@ const MainGridContainer = styled(Grid)(({ theme }) => ({
 }));
 
 const StyledButton = styled(Button)({
-    height: '10vh',
-    color: '#fff',
+    height: '4vh',
+    color: 'white',
     fontSize: '16px',
     backgroundColor: '#003686', // Updated button color
     borderRadius: '8px', // Make the button circular
-    paddingLeft: '16px', // Add space for icon
-    paddingRight: '16px', // Add space for icon
-    position: 'absolute',
-    bottom: '4%',
-    right: '1%', // Adjusted position to the right side
-    zIndex: 1,
+    paddingLeft: '8px', // Add space for icon
+    paddingRight: '8px', // Add space for icon
+    marginTop: '1rem', // Space between subtitle and button
     fontWeight: 'bold', // Make the text bold
     '&:hover': {
-        backgroundColor: '#38AED3', // Darker shade on hover
+        backgroundColor: 'white', // Darker shade on hover
+        color: '#003686'
     },
     '& .MuiButton-endIcon': {
         display: 'none', // Hide the end icon (SendIcon)
     },
 });
 
-
 const FullWidthImage = styled('img')({
-    width: '100%', // Make image occupy full width of its container
+    width: '60%', // Make image occupy full width of its container
     height: 'auto', // Automatically adjust height while maintaining aspect ratio
-    maxHeight: '40vh', // Set maximum height to prevent excessive stretching
-    borderRadius: '16px',
-    boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
+    maxHeight: 'vh', // Set maximum height to prevent excessive stretching
     objectFit: 'cover', // Maintain aspect ratio and cover entire space
+    objectPosition: 'top', // Ensure top part of the image is visible
+    margin: '0', // Remove all margins
+    display: 'block', // Ensure the image behaves as a block element
+    position: 'relative', // Ensure positioning context for absolute button
 });
 
 
@@ -98,8 +95,6 @@ const StyledAccordionDetails = styled(AccordionDetails)({
 });
 
 const App = () => {
-
-    const backgroundImageUrl = 'https://images.unsplash.com/photo-1597200381847-30ec200eeb9a?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
     const navigate = useNavigate();
 
     const faqData = [
@@ -136,58 +131,76 @@ const App = () => {
                 }}
             >
                 <MainGridContainer
+                    container
                     spacing={2}
                     style={{ maxWidth: '960px', position: 'relative' }}
-                    direction="column"
-                    alignItems="center"
+                    direction="row"
+                    alignItems="left"
+                    justifyContent="left"
                 >
-                    <Typography
-                        variant="h3"
-                        component="h2"
-                        align="left"
-                        gutterBottom
-                        style={{
-                            color: '#003686',
-                            fontWeight: 'bold',
-                            letterSpacing: '0.005em',
-                            marginTop: '4rem', // Increase padding above the title
-                        }}
-                    >
-                        Welcome to Safe Route!
-                    </Typography>
-                    
-                    <div style={{ position: 'relative', width: '100%', marginTop: '2rem' }}>
-                        <FullWidthImage
-                            src="https://images.unsplash.com/photo-1494783367193-149034c05e8f?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                            alt="Map Image"
-                        />
+                    <Grid item xs={12} md={6} style={{ textAlign: 'left' }}>
+                        <Typography
+                            variant="h3"
+                            component="h2"
+                            align="left" // Center align the title
+                            gutterBottom
+                            style={{
+                                color: '#003686',
+                                fontWeight: 'bold',
+                                letterSpacing: '0.005em',
+                                marginTop: '4rem', // Increase padding above the title
+                            }}
+                        >
+                            <span>Welcome to </span>
+                            <img src={LogoImage} alt="Safe Route Logo" style={{width: '240px', height: 'auto' }} />
+                        </Typography>
+
+                        <Typography
+                            variant="subtitle1" // Use subtitle variant for smaller text
+                            align="left" // Center align the subtitle
+                            gutterBottom
+                            style={{
+                                color: '#003686',
+                                letterSpacing: '0.005em',
+                            }}
+                        >
+                            We'll help you get to where you need to go, as safely as possible
+                        </Typography>
+
                         <StyledButton onClick={() => navigate('/Planning')} endIcon={<SendIcon />}>
                             Start Planning Your Route!
                         </StyledButton>
-                    </div>
+                    </Grid>
 
-                    <div style={{ width: '100%', marginTop: '2rem' }}>
-                        {faqData.map((faq, index) => (
-                            <StyledAccordion key={index}>
-                                <StyledAccordionSummary
-                                    expandIcon={<ExpandMoreIcon />}
-                                    aria-controls={`faq-${index}-content`}
-                                    id={`faq-${index}-header`}
-                                >
-                                    <Typography variant="h6" style={{ color: '#003686' }}>
-                                        {faq.question}
-                                    </Typography>
-                                </StyledAccordionSummary>
-                                <StyledAccordionDetails>
-                                    <Typography>
-                                        {faq.answer}
-                                    </Typography>
-                                </StyledAccordionDetails>
-                            </StyledAccordion>
-                        ))}
-                    </div>
-                    
-                    <br />
+                    <Grid item xs={12} md={6} style={{ textAlign: 'center' }}>
+                        <FullWidthImage
+                            src={BoyOnBike}
+                            alt="Map Image"
+                        />
+                    </Grid>
+
+                    <Grid item xs={12} style={{ marginTop: '2rem' }}>
+                        <div style={{ width: '100%' }}>
+                            {faqData.map((faq, index) => (
+                                <StyledAccordion key={index}>
+                                    <StyledAccordionSummary
+                                        expandIcon={<ExpandMoreIcon />}
+                                        aria-controls={`faq-${index}-content`}
+                                        id={`faq-${index}-header`}
+                                    >
+                                        <Typography variant="h6" style={{ color: '#003686' }}>
+                                            {faq.question}
+                                        </Typography>
+                                    </StyledAccordionSummary>
+                                    <StyledAccordionDetails>
+                                        <Typography>
+                                            {faq.answer}
+                                        </Typography>
+                                    </StyledAccordionDetails>
+                                </StyledAccordion>
+                            ))}
+                        </div>
+                    </Grid>
                 </MainGridContainer>
             </Box>
         </ThemeProvider>
