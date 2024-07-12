@@ -232,7 +232,7 @@ function SafetyScoresPopup() {
                             setDestinationPlace(place);
                         }}
                     />
-                </LoadScript>
+                </LoadScriptNext>
                 
             </Box>
             {originPlace && (
