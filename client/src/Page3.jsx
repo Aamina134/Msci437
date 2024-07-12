@@ -2,8 +2,10 @@ import React, { useRef, useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import MenuBar from './menu'; // Adjust path as per your project structure
 import Box from '@mui/material/Box';
-import { GoogleMap, DirectionsService, DirectionsRenderer, LoadScript, Autocomplete } from '@react-google-maps/api';
+import { GoogleMap, DirectionsService, DirectionsRenderer, LoadScriptNext, Autocomplete } from '@react-google-maps/api'; // Import necessary components from @react-google-maps/api
+
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import PieChart from './pie';
 
 const lightTheme = createTheme({
     palette: {
@@ -25,20 +27,55 @@ const lightTheme = createTheme({
     },
 });
 
+const data = [
+    {
+        "id": "c",
+        "label": "c",
+        "value": 300,
+        "color": "hsl(56, 70%, 50%)"
+    },
+    {
+        "id": "go",
+        "label": "go",
+        "value": 553,
+        "color": "hsl(297, 70%, 50%)"
+    },
+    {
+        "id": "rust",
+        "label": "rust",
+        "value": 123,
+        "color": "hsl(111, 70%, 50%)"
+    }
+];
+
 const MapComponent = () => {
     const [directions, setDirections] = useState(null);
 
     const fetchDirections = () => {
         const directionsService = new window.google.maps.DirectionsService();
 
-        const origin = { lat: 43.66611867064715, lng: -79.36844301380488 }; //Cabbage town
-        const destination = { lat: 43.71211226493189, lng: -79.39393597358205 }; //Thornhills (probably)
+        const origin = { lat: 43.66611867064715, lng: -79.36844301380488 }; // Cabbage town
+        const destination = { lat: 43.71211226493189, lng: -79.39393597358205 }; // Thornhills (probably)
 
         directionsService.route(
             {
                 origin: origin,
                 destination: destination,
                 travelMode: window.google.maps.TravelMode.DRIVING,
+            },
+            (result, status) => {
+                if (status === window.google.maps.DirectionsStatus.OK) {
+                    setDirections(result);
+                } else {
+                    console.error(`error fetching directions ${result}`);
+                }
+            }
+        );
+        directionsService.route(
+            {
+                origin: origin,
+                destination: destination,
+                travelMode: window.google.maps.TravelMode.TRANSIT,
             },
             (result, status) => {
                 if (status === window.google.maps.DirectionsStatus.OK) {
@@ -112,6 +149,10 @@ const AutocompleteInput = ({ placeholder, onPlaceChanged }) => {
 };
 
 function SafetyScoresPopup() {
+    const [scoreOne, setScoreOne] = useState(90);
+    const [scoreTwo, setScoreTwo] = useState(75);
+    const [scoreThree, setScoreThree] = useState(36);
+
     const [isOpen, setIsOpen] = useState(false);
     const [originPlace, setOriginPlace] = useState();
     const [destinationPlace, setDestinationPlace] = useState();
@@ -135,12 +176,13 @@ function SafetyScoresPopup() {
                     backgroundSize: 'cover',
                 }}
             >
-                <LoadScript
+                <LoadScriptNext
                     googleMapsApiKey="AIzaSyACR54EJurDEozVMCEc3Wut8SuseSCWl_g" // Replace with your Google Maps API key
                     libraries={['places']}
                 >
                     <div style={{ height: '100%', width: '100%', position: 'relative'}}>
                         <MapComponent /> 
+
                         <div style={{
                             position: 'absolute',
                             top: '15%',
@@ -159,6 +201,9 @@ function SafetyScoresPopup() {
                                     <h2>Safety Scores</h2>
                                     <p>(0 = completely unsafe, 100 = perfectly safe)</p>
                                     <p>Biking.............61</p>
+                                     <Box height="10vh">
+                                            <PieChart data={data} />
+                                     </Box>
                                     <p>Walking.............70</p>
                                     <p>Public Transit.....78</p>
                                     <p>Dangers occurred recently in this route's red zones:</p>
@@ -208,6 +253,7 @@ function SafetyScoresPopup() {
                     <p>Longitude: {destinationPlace.geometry.location.lng()}</p>
                 </div>
             )}
+
         </ThemeProvider>
     );
 }
