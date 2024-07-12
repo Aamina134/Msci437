@@ -4,6 +4,8 @@ import MenuBar from './menu'; // Adjust path as per your project structure
 import Box from '@mui/material/Box';
 import { GoogleMap, DirectionsService, DirectionsRenderer, LoadScript, Autocomplete } from '@react-google-maps/api';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import './App.css';
+import { io } from "socket.io-client";
 
 const lightTheme = createTheme({
     palette: {
@@ -110,11 +112,36 @@ const AutocompleteInput = ({ placeholder, onPlaceChanged }) => {
         </Autocomplete>
     );
 };
-
+//---------------------------------------------------------------------------------------
 function SafetyScoresPopup() {
     const [isOpen, setIsOpen] = useState(false);
-    const [originPlace, setOriginPlace] = useState();
-    const [destinationPlace, setDestinationPlace] = useState();
+    const [originPlace, setOriginPlace] = useState("place holder");
+    const [destinationPlace, setDestinationPlace] = useState("placeholder");
+    const [socket, setSocket] = React.useState(null);
+    const [username, setUsername] = React.useState("");
+    const [userMessage, setUserMessage] = React.useState("")
+
+    React.useEffect(() => {
+        const newSocket = io.connect("http://localhost:4001/"); //use this to emmit or listen to events whenever we want to
+        setSocket(newSocket);
+
+        newSocket.on("receive_message", (userMessages) =>{
+            alert(JSON.stringify(userMessages));
+        })
+        return () => newSocket.close();
+    }, []);
+
+    const [data, setData] = React.useState("");
+
+    const sendMessage = () => {
+        console.log("button pressed");
+        if (socket) {
+            socket.emit("send_message", {
+                message: userMessage,
+                username: username
+            });
+        }
+    };
 
     const handleOpen = () => {
         setIsOpen(true);
@@ -123,6 +150,12 @@ function SafetyScoresPopup() {
     const handleClose = () => {
         setIsOpen(false);
     };
+
+    const go = () =>{
+        setOriginPlace("updated");
+        setDestinationPlace("updated");
+
+    }
 
     return (
         <ThemeProvider theme={lightTheme}>
@@ -135,27 +168,52 @@ function SafetyScoresPopup() {
                     backgroundSize: 'cover',
                 }}
             >
+                <div className="App">
+                    <header className="App-header">
+                        <input
+                            type="text"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)} // Update the message state as the user types
+                            placeholder="Type your username..."
+                        />
+                        <input
+                            type="text"
+                            value={userMessage}
+                            onChange={(e) => setUserMessage(e.target.value)} // Update the message state as the user types
+                            placeholder="Type your message..."
+                        />
+                        {<button onClick={sendMessage}>send message</button>}
+
+                    </header>
+                </div>
                 <LoadScript
                     googleMapsApiKey="AIzaSyACR54EJurDEozVMCEc3Wut8SuseSCWl_g" // Replace with your Google Maps API key
                     libraries={['places']}
                 >
-                    <div style={{ height: '100%', width: '100%', position: 'relative'}}>
-                        <MapComponent /> 
+                    <div style={{height: '100%', width: '100%', position: 'relative'}}>
+                        <MapComponent/>
                         <div style={{
                             position: 'absolute',
                             top: '15%',
                             left: '7%',
                             boxShadow: '0 2px 6px rgba(0, 0, 0, 0.3)'
                         }}>
-                            <Button 
-                                variant="contained" 
-                                color="primary" 
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={go}
+                            >
+                                Let's Go
+                            </Button>
+                            <Button
+                                variant="contained"
+                                color="primary"
                                 onClick={handleOpen}
                             >
                                 Show Safety Scores
                             </Button>
                             {isOpen && (
-                                <div className="popup" style={{ backgroundColor: 'white' }}>
+                                <div className="popup" style={{backgroundColor: 'white'}}>
                                     <h2>Safety Scores</h2>
                                     <p>(0 = completely unsafe, 100 = perfectly safe)</p>
                                     <p>Biking.............61</p>
@@ -179,6 +237,7 @@ function SafetyScoresPopup() {
                         onPlaceChanged={(place) => {
                             setOriginPlace(place);
                         }}
+
                     />
 
                     <AutocompleteInput
@@ -188,24 +247,24 @@ function SafetyScoresPopup() {
                         }}
                     />
                 </LoadScript>
-                
+
             </Box>
             {originPlace && (
                 <div>
                     <h2>Origin Place Details</h2>
-                    <p>Name: {originPlace.name}</p>
-                    <p>Address: {originPlace.formatted_address}</p>
-                    <p>Latitude: {originPlace.geometry.location.lat()}</p>
-                    <p>Longitude: {originPlace.geometry.location.lng()}</p>
+                    <p>Name: {originPlace}</p>
+                    <p>Address: {originPlace}</p>
+                    <p>Latitude: {originPlace}</p>
+                    <p>Longitude: {originPlace}</p>
                 </div>
             )}
             {destinationPlace && (
                 <div>
                     <h2>Destination Place Details</h2>
-                    <p>Name: {destinationPlace.name}</p>
-                    <p>Address: {destinationPlace.formatted_address}</p>
-                    <p>Latitude: {destinationPlace.geometry.location.lat()}</p>
-                    <p>Longitude: {destinationPlace.geometry.location.lng()}</p>
+                    <p>Name: {destinationPlace}</p>
+                    <p>Address: {destinationPlace}</p>
+                    <p>Latitude: {destinationPlace}</p>
+                    <p>Longitude: {destinationPlace}</p>
                 </div>
             )}
         </ThemeProvider>
