@@ -15,7 +15,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 const initialCardsData = [
     { title: "Bike", values: [100, 90, 80, 70], icon: <DirectionsBikeIcon />, bgColor: "#1e3a8a" },
     { title: "Transit", values: [80, 75, 70, 65], icon: <DirectionsTransitIcon />, bgColor: "#2c5282" },
-    { title: "Walking", values: [40, 35, 30, 25], icon: <DirectionsWalkIcon />, bgColor: "#2b6cb0" },
+    { title: "Walking", values: [70, 55, 65, 50], icon: <DirectionsWalkIcon />, bgColor: "#2b6cb0" },
 ];
 
 const COLORS = ["#ADD8E6", "#34495E", "#7F8C8D", "#BDC3C7", "#95A5A6", "#E74C3C", "#C0392B", "#2980B9", "#3498DB", "#16A085"];
@@ -153,7 +153,15 @@ function SafetyScoresPopup() {
                             Show Safety Scores
                         </Button>
                         {isOpen && (
-                            <div className="popup" style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)', padding: 16, borderRadius: 8 }}>
+                            <div className="popup" style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)', padding: 16, borderRadius: 8,
+                                width: '97%', // or any other width you prefer
+                                maxWidth: '1250px', // optional, to limit the maximum width
+
+                                //position: 'absolute', // ensures the popup is positioned correctly
+                                //top: '50%', // adjust this value to control vertical positioning
+                                //left: '50%',
+                                //transform: 'translate(-50%, -50%)' // centers the popup vertically and horizontally
+                                     }}>
                                 <StyledCardComponent cardsData={cardsData}/>
                                 <Button variant="contained" color="primary" onClick={handleClose}>
                                     Done
