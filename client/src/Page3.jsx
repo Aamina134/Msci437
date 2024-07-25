@@ -5,7 +5,96 @@ import Box from '@mui/material/Box';
 import { GoogleMap, DirectionsService, DirectionsRenderer, LoadScriptNext, Autocomplete } from '@react-google-maps/api'; // Import necessary components from @react-google-maps/api
 import MapComponent from './MapComponent';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import PieChart from './pie';
+import { Card, CardContent, Typography, Grid } from '@mui/material';
+import PieChartIcon from '@mui/icons-material/PieChart';
+import DirectionsBikeIcon from '@mui/icons-material/DirectionsBike';
+import DirectionsTransitIcon from '@mui/icons-material/DirectionsTransit';
+import DirectionsWalkIcon from '@mui/icons-material/DirectionsWalk';
+import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from 'recharts';
+
+const cardsData = [
+    { title: "Bike", value: "100", icon: <DirectionsBikeIcon />, bgColor: "#1e3a8a" },
+    { title: "Transit", value: "80", icon: <DirectionsTransitIcon />, bgColor: "#2c5282" },
+    { title: "Walking", value: "40", icon: <DirectionsWalkIcon />, bgColor: "#2b6cb0" },
+];
+
+const data01 = [
+    { name: 'Safety', value: 100 },
+    { name: 'Quality', value: 0 },
+];
+
+const data02 = [
+    { name: 'Safety', value: 80 },
+    { name: 'Quality', value: 20 },
+];
+const data03 = [
+    { name: 'Safety', value: 40 },
+    { name: 'Quality', value: 60 },
+];
+
+const pieData = [data01, data02, data03];
+
+//#5075AC
+
+const COLORS = ["#ADD8E6", "#34495E", "#7F8C8D", "#BDC3C7", "#95A5A6", "#E74C3C", "#C0392B", "#2980B9", "#3498DB", "#16A085"
+
+];
+const renderCustomLabel = ({ name }) => name;
+
+
+const StyledCardComponent = () => {
+    return (
+        <Box sx={{ flexGrow: 1, padding: 3 }}>
+            <Grid container spacing={2}>
+                {cardsData.map((card, index) => (
+                    <Grid item xs={12} sm={6} md={4} key={index}>
+                        <Card sx={{ boxShadow: 10, backgroundColor: card.bgColor, color: 'white', borderRadius: 2 }}>
+                            <CardContent>
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+
+                                    <Box>
+                                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 2 }}>
+                                            {card.icon}
+                                        </Box>
+                                        <Typography variant="h5" sx={{ fontWeight: 'bold',marginTop: 3 }}>
+                                            {card.value}
+                                        </Typography>
+                                        <Typography variant="subtitle1">
+                                            {card.title}
+                                        </Typography>
+                                        <Typography variant="body2">
+                                            Score out of 100
+                                        </Typography>
+                                    </Box>
+                                    <ResponsiveContainer width="100%" height={160}>
+                                        <PieChart>
+                                            <Pie
+                                                dataKey="value"
+                                                isAnimationActive={true}
+                                                data={pieData[index]}
+                                                cx="50%"
+                                                cy="50%"
+                                                outerRadius={60}
+                                                innerRadius={40}
+                                                fill="#8884d8"
+                                            >
+                                                {pieData[index].map((entry, i) => (
+                                                    <Cell key={`cell-${i}`} fill={COLORS[i % COLORS.length]} />
+                                                ))}
+                                            </Pie>
+                                        </PieChart>
+                                    </ResponsiveContainer>
+                                </Box>
+
+                            </CardContent>
+                        </Card>
+
+                    </Grid>
+                ))}
+            </Grid>
+        </Box>
+    );
+};
 
 const lightTheme = createTheme({
     palette: {
@@ -14,7 +103,7 @@ const lightTheme = createTheme({
             default: '#ffffff',
         },
         primary: {
-            main: '#EEE2DC',
+            main: '#000053',
             light: '#f5eae6',
             dark: '#ffffff',
             background: '#ffffff',
@@ -189,26 +278,14 @@ function SafetyScoresPopup() {
                     }}>
                         <Button 
                             variant="contained" 
-                            color="primary" 
+                            color="primary"
                             onClick={handleOpen}
                         >
                             Show Safety Scores
                         </Button>
                         {isOpen && (
                             <div className="popup" style={{ backgroundColor: 'white' }}>
-                                <h2>Safety Scores</h2>
-                                <p>(0 = completely unsafe, 100 = perfectly safe)</p>
-                                <p>Biking.............61</p>
-                                    <Box height="10vh">
-                                        <PieChart data={data} />
-                                    </Box>
-                                <p>Walking.............70</p>
-                                <p>Public Transit.....78</p>
-                                <p>Dangers occurred recently in this route's red zones:</p>
-                                <ul>
-                                    <li>Stabbings</li>
-                                    <li>Bike theft</li>
-                                </ul>
+                                <StyledCardComponent/>
                                 <Button variant="contained" color="primary" onClick={handleClose}>
                                     Done
                                 </Button>
@@ -235,6 +312,7 @@ function SafetyScoresPopup() {
                     <p>Longitude: {destinationPlace.geometry.location.lng()}</p>
                 </div>
             )}
+
 
         </ThemeProvider>
     );
