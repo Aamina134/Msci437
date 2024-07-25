@@ -65,13 +65,7 @@ const App = () => {
                             >
                                 <Typography variant="button">Home</Typography>
                             </Button>
-                            <Button
-                                key='3'
-                                onClick={() => navigate('/Planning')}
-                                sx={{ color: '#003686', fontWeight: 'extra bold' }}
-                            >
-                                <Typography variant="button">Route Planning</Typography>
-                            </Button>
+
                             <Button
                                 key='4'
                                 onClick={() => navigate('/Analysis')}
