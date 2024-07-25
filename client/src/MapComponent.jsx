@@ -100,7 +100,7 @@ const MapComponent = () => {
 
   return (
     <div>
-        <div id="map" style={{ height: '90vh' }}></div>
+        <div id="map" style={{ height: '82vh' }}></div>
         <input id="origin-input" className="controls" type="text" placeholder="Enter origin" />
         <input id="destination-input" className="controls" type="text" placeholder="Enter destination" />
         <div id="mode-selector" className="controls">

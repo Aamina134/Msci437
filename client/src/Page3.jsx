@@ -129,7 +129,7 @@ function SafetyScoresPopup() {
             <MenuBar />
             <Box
                 sx={{
-                    height: '88vh',
+                    height: '83vh',
                     opacity: 0.9,
                     backgroundImage: `url(https://source.unsplash.com/_0sEjWfAK3Q)`,
                     backgroundSize: 'cover',
