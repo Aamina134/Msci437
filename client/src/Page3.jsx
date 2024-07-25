@@ -135,8 +135,21 @@ function SafetyScoresPopup() {
                     backgroundSize: 'cover',
                 }}
             >
-                <div style={{ height: '100%', width: '100%', position: 'relative'}}>
-                    <MapComponent />
+                <div style={{
+                    height: '100%',
+                    width: '90%',
+                    position: 'relative',
+                    padding: 16,
+                    borderRadius: 8,
+                    margin: 0,
+                    marginTop: '40px',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)', // Corrected transform property
+                    backgroundColor: '#000053', // blue background for the content container
+                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1), 0 7px 10px -5px rgba(0, 0, 0, 0.2)' // Added box shadow
+                }}>
+                    <MapComponent/>
 
                     <div style={{
                         position: 'absolute',
@@ -152,10 +165,11 @@ function SafetyScoresPopup() {
                             Show Safety Scores
                         </Button>
                         {isOpen && (
-                            <div className="popup" style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)', padding: 16, borderRadius: 8,
+                            <div className="popup" style={{
+                                backgroundColor: 'rgba(255, 255, 255, 0.5)', padding: 16, borderRadius: 8,
                                 width: '97%', // or any other width you prefer
                                 maxWidth: '1250px', // optional, to limit the maximum width
-                                     }}>
+                            }}>
                                 <StyledCardComponent cardsData={cardsData}/>
                                 <Button variant="contained" color="primary" onClick={handleClose}>
                                     Done

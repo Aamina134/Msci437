@@ -53,7 +53,14 @@ const App = () => {
 
     return (
         <ThemeProvider theme={lightTheme}>
-            <AppBar position="static" sx={{ backgroundColor: 'white' }}>
+            <AppBar
+                position="static"
+                sx={{
+                    backgroundColor: 'white',
+                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1), 0 7px 10px -5px rgba(0, 0, 0, 0.2)',
+                    borderBottom: '1px solid rgba(0, 0, 0, 0.12)'
+                }}
+            >
                 <Container maxWidth="xl">
                     <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
                         <Logo />
