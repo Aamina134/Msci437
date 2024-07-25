@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import MenuBar from './menu'; // Adjust path as per your project structure
 import Box from '@mui/material/Box';
 import { GoogleMap, DirectionsService, DirectionsRenderer, LoadScriptNext, Autocomplete } from '@react-google-maps/api'; // Import necessary components from @react-google-maps/api
-
+import MapComponent from './MapComponent';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import PieChart from './pie';
 
@@ -48,7 +48,7 @@ const data = [
     }
 ];
 
-const MapComponent = () => {
+const MapComponent2 = () => {
     const [directions, setDirections] = useState(null);
 
     const fetchDirections = () => {
@@ -121,6 +121,7 @@ const AutocompleteInput = ({ placeholder, onPlaceChanged }) => {
             onLoad={(autocomplete) => {
                 console.log(`${placeholder} autocomplete loaded`, autocomplete);
                 autocompleteRef.current = autocomplete;
+                
             }}
         >
             <input
@@ -167,6 +168,7 @@ function SafetyScoresPopup() {
 
     return (
         <ThemeProvider theme={lightTheme}>
+            <link rel="stylesheet" type="text/css" href="./style.css" />
             <MenuBar />
             <Box
                 sx={{
@@ -176,64 +178,44 @@ function SafetyScoresPopup() {
                     backgroundSize: 'cover',
                 }}
             >
-                <LoadScriptNext
-                    googleMapsApiKey="AIzaSyACR54EJurDEozVMCEc3Wut8SuseSCWl_g" // Replace with your Google Maps API key
-                    libraries={['places']}
-                >
-                    <div style={{ height: '100%', width: '100%', position: 'relative'}}>
-                        <MapComponent /> 
+                <div style={{ height: '100%', width: '100%', position: 'relative'}}>
+                    <MapComponent /> 
 
-                        <div style={{
-                            position: 'absolute',
-                            top: '15%',
-                            left: '7%',
-                            boxShadow: '0 2px 6px rgba(0, 0, 0, 0.3)'
-                        }}>
-                            <Button 
-                                variant="contained" 
-                                color="primary" 
-                                onClick={handleOpen}
-                            >
-                                Show Safety Scores
-                            </Button>
-                            {isOpen && (
-                                <div className="popup" style={{ backgroundColor: 'white' }}>
-                                    <h2>Safety Scores</h2>
-                                    <p>(0 = completely unsafe, 100 = perfectly safe)</p>
-                                    <p>Biking.............61</p>
-                                     <Box height="10vh">
-                                            <PieChart data={data} />
-                                     </Box>
-                                    <p>Walking.............70</p>
-                                    <p>Public Transit.....78</p>
-                                    <p>Dangers occurred recently in this route's red zones:</p>
-                                    <ul>
-                                        <li>Stabbings</li>
-                                        <li>Bike theft</li>
-                                    </ul>
-                                    <Button variant="contained" color="primary" onClick={handleClose}>
-                                        Done
-                                    </Button>
-                                </div>
-                            )}
-                        </div>
+                    <div style={{
+                        position: 'absolute',
+                        top: '15%',
+                        left: '7%',
+                        boxShadow: '0 2px 6px rgba(0, 0, 0, 0.3)'
+                    }}>
+                        <Button 
+                            variant="contained" 
+                            color="primary" 
+                            onClick={handleOpen}
+                        >
+                            Show Safety Scores
+                        </Button>
+                        {isOpen && (
+                            <div className="popup" style={{ backgroundColor: 'white' }}>
+                                <h2>Safety Scores</h2>
+                                <p>(0 = completely unsafe, 100 = perfectly safe)</p>
+                                <p>Biking.............61</p>
+                                    <Box height="10vh">
+                                        <PieChart data={data} />
+                                    </Box>
+                                <p>Walking.............70</p>
+                                <p>Public Transit.....78</p>
+                                <p>Dangers occurred recently in this route's red zones:</p>
+                                <ul>
+                                    <li>Stabbings</li>
+                                    <li>Bike theft</li>
+                                </ul>
+                                <Button variant="contained" color="primary" onClick={handleClose}>
+                                    Done
+                                </Button>
+                            </div>
+                        )}
                     </div>
-
-                    <AutocompleteInput
-                        placeholder="Enter origin"
-                        onPlaceChanged={(place) => {
-                            setOriginPlace(place);
-                        }}
-                    />
-
-                    <AutocompleteInput
-                        placeholder="Enter destination"
-                        onPlaceChanged={(place) => {
-                            setDestinationPlace(place);
-                        }}
-                    />
-                </LoadScriptNext>
-                
+                </div>
             </Box>
             {originPlace && (
                 <div>
