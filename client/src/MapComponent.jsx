@@ -43,7 +43,7 @@ const MapComponent = () => {
 
         this.setupClickListener('changemode-walking', google.maps.TravelMode.WALKING);
         this.setupClickListener('changemode-transit', google.maps.TravelMode.TRANSIT);
-        this.setupClickListener('changemode-driving', google.maps.TravelMode.DRIVING);
+        this.setupClickListener('changemode-driving', google.maps.TravelMode.BICYCLING);
         this.setupPlaceChangedListener(originAutocomplete, 'ORIG');
         this.setupPlaceChangedListener(destinationAutocomplete, 'DEST');
         this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(originInput);
@@ -109,7 +109,7 @@ const MapComponent = () => {
             <input type="radio" name="type" id="changemode-transit" />
             <label htmlFor="changemode-transit">Transit</label>
             <input type="radio" name="type" id="changemode-driving" />
-            <label htmlFor="changemode-driving">Driving</label>
+            <label htmlFor="changemode-driving">Biking</label>
         </div>
     </div>
   );
