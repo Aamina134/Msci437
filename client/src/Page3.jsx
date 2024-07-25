@@ -153,7 +153,7 @@ function SafetyScoresPopup() {
                             Show Safety Scores
                         </Button>
                         {isOpen && (
-                            <div className="popup" style={{ backgroundColor: 'white' }}>
+                            <div className="popup" style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)', padding: 16, borderRadius: 8 }}>
                                 <StyledCardComponent cardsData={cardsData}/>
                                 <Button variant="contained" color="primary" onClick={handleClose}>
                                     Done
