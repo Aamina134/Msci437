@@ -1,0 +1,256 @@
+# Homework 3 Instructions
+The goal for this homework is for you to interact with python libraries that facilitate data manipulation and analysis. This homework closely follows the 2023/06/05 [pyspark tutorial](https://github.com/jmpark0808/pyspark/blob/hmw3/pyspark.ipynb).
+
+You will be analyzing a 500,010 tweet dataset (10 of which you will make yourself in **Part 1**). You'll be asked to load the data with pyspark, answer questions about the dataset and then finally visualizing connections between your tweets and mentions based on a hashtag.
+
+## Submission Setup
+1. Rename this file as "\<student_id\>_\<username\>_H3"
+2. Preview this notebook as an HTML file, i.e., File -> Print Preview
+3. `Cmd + P` to get the printing prompt but save the file as **PDF**
+4. Submit this renamed file to CrowdMark
+    - ***Make sure that the submission file includes the cell outputs***
+
+
+## Tips
+- Refer heavily to the 2023/06/05 tutorial code since this homework is a slight derivation of it
+- Refer to documentation for useful methods (e.g., [pyspark.sql.DataFrame](https://spark.apache.org/docs/3.1.1/api/python/reference/api/pyspark.sql.DataFrame.html)) and we have provided some useful links in this notebook
+- We are evaluating the cell outputs
+- Ask questions in piazza and contribute to other peoples posts (anonymously if you are too shy)
+
+# Part 0: Setup
+
+### Install Required Packages
+`pip install -r requirements.txt`
+
+Or I suggest installing these in a python virtual environment
+```bash
+mkdir envs
+cd envs
+virtualenv msci436 -p python3
+source envs/msci436/bin/activate # activate virtual env
+pip install -r requirements.txt
+```
+
+### Check if you have Java
+#### Linux
+`!pip install -r requirements.txt`
+
+If you do not have java installed, run
+```
+sudo apt-get update
+sudo apt-get install openjdk-8-jdk
+```
+
+#### macOS
+[Here](https://mkyong.com/java/how-to-install-java-on-mac-osx/#homebrew-install-latest-java-on-macos) is the brief guide but note that if `/usr/local/Cellar` doesn't exist for you, follow the bellow steps
+
+1. Install java `brew install java`
+2. View java symbolic link instructions `brew info java`
+3. Execute the command under "==> Caveats", (for me it's `sudo ln -sfn /opt/homebrew/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk`)
+4. Validate that everything works with `java -version`
+# Part 1: Data Creation
+In this part you will add 10 more tweets to [hmw3_tweets.zip](https://github.com/jmpark0808/pyspark/blob/hmw3/hmw3_tweets.zip) (download and unzip it) which containes the first 500,000 tweets from the [Sentiment140](https://www.kaggle.com/datasets/kazanova/sentiment140) dataset.
+
+1. Use your student number as the 'id' (second column) and your username as the 'user' (fifth column)
+2. Create tweets (10 total) mentioning (1 mention per tweet):
+    - <span style="color:blue">{'Hollywood_Trey', 'MiDesfileNegro', 'TessMorris', 'amazingphoebe', 'kasey79', 'lost_dog', 'nessie111', 'nuttychris', 'sebby_peek', 'tweetpet'}
+    - Example; "@Hollywood_Trey We should definitely nominate Eddie and Kimathi for the TA awards"
+3. Include hashtag (defined below) in all your tweets
+
+This will be your personal data csv for this homework
+#validate setup-section added by me
+# Initialize findspark
+import findspark
+findspark.init()
+
+# Create a PySpark session
+from pyspark.sql import SparkSession
+spark = SparkSession.builder.master("local[*]").getOrCreate()
+spark
+
+import os
+os.environ['PYSPARK_PYTHON'] = 'python'
+os.environ['PYSPARK_DRIVER_PYTHON'] = 'python'
+HASHTAG = "#fail"
+
+#new tweets were added manualy to the unzipped file
+# Part 2: Load CSV with pyspark
+Uncomment lines 13-14 if `sc.take(5)` outputs are double quoted
+from pyspark.sql import SparkSession
+
+
+import os
+os.environ['PYSPARK_PYTHON'] = 'python3'
+os.environ['PYSPARK_DRIVER_PYTHON'] = 'python3'
+
+
+spark = SparkSession.builder.appName('SparkExample.com').getOrCreate()
+
+# We load the csv into an RDD (Resilient Distributed Dataset) named tweetsCSV
+sc = spark.sparkContext.textFile("hmw3_tweets.csv")
+def process_string(s):
+    split = s.split(',')
+    if len(split) != 6:
+        split[5] = ''.join(split[5:]).strip('"')
+        split = split[:6]
+
+    #for i in range(6):
+    #     split[i] = split[i][1:-1]
+    return split
+sc = sc.map(lambda s: process_string(s))
+sc.take(5)
+# "take" the first 5 items
+
+# Part 3: Create a pyspark DataFrame
+# Define data columns
+deptColumns = ["target","ids", "date", "flag", "user", "text"]
+# TODO: Create data frame
+tweetsDF = sc.toDF(deptColumns)
+
+# TODO: Visualize the DataFrame schema `printSchema()`
+tweetsDF.printSchema()
+
+# TODO: Show the first 5 rows `show(...)`
+tweetsDF.show(5)
+
+# TODO: Print the total number of rows
+tweetsDF.count()
+# Part 4: Query/Explore your Data
+## Part 4.1: Using `pyspark.sql.DataFrame.where`
+# TODO: Print out all the tweets (tweetsDF.text) made by you (tweetsDF.user)
+tweetsDF.where(tweetsDF.user=='a6anjum').select(tweetsDF.text).collect()
+# TODO: Print the combined number of tweets made by 'lost_dog' and 'nuttychris'
+tweetsDF.where((tweetsDF.user == 'lost_dog') | (tweetsDF.user == 'nuttychris')).count()
+from pyspark.sql.functions import col # might be useful
+
+# TODO: Print the number of tweets that mention user 'amazingphoebe'
+tweetsDF.createOrReplaceTempView("tweets")
+
+result = spark.sql("SELECT COUNT(*) AS count FROM tweets WHERE text LIKE '%@amazingphoebe%'")
+result.show()
+
+# TODO: Print the 5 most active twitter users
+result = spark.sql("""
+    SELECT user, COUNT(*) AS count
+    FROM tweets
+    GROUP BY user
+    ORDER BY count DESC
+    LIMIT 5
+""")
+
+# Show the result
+result.show()
+## Part 4.2: Using `spark.sql(...)`
+tweetsDF.createOrReplaceTempView("tweets")
+# register a table called 'tweets' for querying `createOrReplaceTempView(...)`
+
+
+
+# TODO: Select the first 5 entries from the 'user' column
+# Tutorial code
+temp_df = spark.sql("SELECT user FROM tweets LIMIT 5")
+temp_df.show()
+
+# TODO: Get the number of distinct/unique users
+# https://www.w3schools.com/sql/sql_distinct.asp
+temp_df = spark.sql("SELECT  COUNT(DISTINCT user) FROM tweets;")
+temp_df.show()
+
+# TODO: Show first 10 tweets that mention user 'amazingphoebe'
+# https://www.w3schools.com/sql/trysql.asp?filename=trysql_op_like
+temp_df = spark.sql("""
+    SELECT *
+    FROM tweets
+    WHERE text LIKE '%@amazingphoebe%'
+    LIMIT 10
+""")
+
+# Show the result
+temp_df.show(truncate=False)
+
+# Part 5: Hashtag Statistics
+hashTags = sc.flatMap(lambda xs: [x.split(' ') for x in xs]).flatMap(lambda x: x).filter(lambda w: w.startswith("#"))
+
+# Print the total number of hashtags found in the dataset
+hashTags.count()
+# TODO: Count unique hashtags and sort them in descending order of count
+countedHashTags = hashTags.map(lambda w: (w, 1)).reduceByKey(lambda a, b: a + b).sortBy(lambda tup: tup[1], ascending = False)
+# Print the top 10 hashtags
+countedHashTags.take(10)
+# Part 6: Create A Mentions Column
+In this section you will parse the tweet text for mentions (e.g. @tweetpet) and place them in a separate data column
+## Part 6.1: Create a Pandas DataFrame and add Mentions Column
+# TODO: Convert to a pandas dataframe `toPandas()`
+tweets_PDF = tweetsDF.toPandas()
+
+# Visualize first 5 rows
+tweets_PDF.head(5)
+# TODO: Create a column which lists the mentions present for each tweet
+# Tutorial code
+
+def addMentionedColumn(df):
+
+    def mentionsList(txt):
+        allWords = [word.strip(""" ,.:'\";""").lower() for word in txt.split()]
+        allNames = [word.strip("@") for word in allWords if word.startswith("@")]
+        uniqueNames = list(set(allNames))
+        return uniqueNames
+
+    df["mentioned"] = df["text"].apply(mentionsList)
+
+addMentionedColumn(tweets_PDF)
+
+# Visualize the first 5 rows of this new dataset (should include 'mentioned' column)
+tweets_PDF.head(5)
+## Part 6.2: Filter out tweets that don't include `HASHTAGS`
+Use [pandas.DataFrame.loc](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.loc.html) method to filter pandas dataframe (e.g.,`new_pdf = old_pdf.loc[(old_pdf['user']=="Karol")]`)
+
+Note that you will need to find out how to search if a column (e.g., tweets_PDF['text']) contains a `HASHTAG`. Refer to [this](https://stackoverflow.com/questions/11350770/filter-pandas-dataframe-by-substring-criteria) stack overflow link
+
+** Search for `HASHTAG + " "` adding trailing space to only search for whole words
+# TODO: Only store tweets with HASHTAG
+tweets_PDF_filtered = tweets_PDF.loc[tweets_PDF['text'].str.contains(HASHTAG + " ")]
+
+# Print the number of tweets containting the hashtag
+print(tweets_PDF_filtered.count())
+
+# Print the first couple tweets
+import pandas as pd
+pd.set_option('display.max_colwidth', None)
+tweets_PDF_filtered.head(5)
+# Part 7: Graph Nodes
+## Part 7.1: Create graph of mentions
+import networkx as nx
+# TODO: Create a graph of user nodes linked by mentions (Tutorial code)
+
+def mentionGraph(df):
+    g = nx.Graph()
+
+    for  (index, target, ids, date, flag, user, text, mentionedUsers) in df.itertuples():
+        for mentionedUser in mentionedUsers:
+            if (user in g) and (mentionedUser in g[user]):
+                g[user][mentionedUser]["numberMentions"] += 1
+            else:
+                g.add_edge(user, mentionedUser, numberMentions=1)
+
+    return g
+
+hashtagGraph = mentionGraph(tweets_PDF)
+# Print the number of nodes attached to your username (Tutorial code)
+nx.degree(hashtagGraph, "a6anjum")
+## Part 7.1: Visualize graph of mentions
+from plotly.offline import download_plotlyjs, init_notebook_mode, plot, iplot
+from plotly.graph_objs import *
+
+init_notebook_mode(connected=True)
+
+import random
+random.seed(0) # deterministic
+def addRandomPositions(graph):
+    posDict = dict((node,(random.gauss(0,10),random.gauss(0,10))) for node in graph.nodes())
+    nx.set_node_attributes(graph, posDict, "pos")
+
+addRandomPositions(hashtagGraph)
+
+# TODO: Print your node's position using the 'pos' attributed added to the graph (Tutorial code)
+nx.get_node_attributes(hashtagGraph, 'pos')['a6anjum']

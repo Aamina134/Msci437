@@ -42,7 +42,7 @@ io.on("connection", (socket) => {
 */
 
 
-app.get("/", async (req, res, next)=>{
+/*app.get("/", async (req, res, next)=>{
     bigBooleanTable = []
     timeOfDay = 'Day'
     ModeOfTransportation = 'Car'
@@ -61,7 +61,7 @@ app.get("/", async (req, res, next)=>{
         res.send(dataToSend)
     });
 
-});
+});*/
 //Initialize our web-app on the selected port
 httpServer.listen(port);
 
