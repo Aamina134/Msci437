@@ -18,8 +18,7 @@ const initialCardsData = [
     { title: "Walking", values: [70, 55, 65, 50], icon: <DirectionsWalkIcon />, bgColor: "#2b6cb0" },
 ];
 
-const COLORS = ["#ADD8E6", "#34495E", "#7F8C8D", "#BDC3C7", "#95A5A6", "#E74C3C", "#C0392B", "#2980B9", "#3498DB", "#16A085"];
-const renderCustomLabel = ({ name }) => name;
+const COLORS = ["#ADD8E6", "#34495E"];
 
 const getRandomValue = (values) => values[Math.floor(Math.random() * values.length)];
 
@@ -156,11 +155,6 @@ function SafetyScoresPopup() {
                             <div className="popup" style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)', padding: 16, borderRadius: 8,
                                 width: '97%', // or any other width you prefer
                                 maxWidth: '1250px', // optional, to limit the maximum width
-
-                                //position: 'absolute', // ensures the popup is positioned correctly
-                                //top: '50%', // adjust this value to control vertical positioning
-                                //left: '50%',
-                                //transform: 'translate(-50%, -50%)' // centers the popup vertically and horizontally
                                      }}>
                                 <StyledCardComponent cardsData={cardsData}/>
                                 <Button variant="contained" color="primary" onClick={handleClose}>
